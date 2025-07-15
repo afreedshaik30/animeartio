@@ -1,14 +1,16 @@
-# Use lightweight OpenJDK image
+# ---------- Stage 1: Build the application ----------
+FROM maven:3.9.6-eclipse-temurin-17 as builder
+
+WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
+
+# ---------- Stage 2: Run the app ----------
 FROM openjdk:17-jdk-slim
 
-# Set working directory inside container
 WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
 
-# Copy built jar into container
-COPY target/*.jar app.jar
-
-# Expose port 8080
 EXPOSE 8080
 
-# Run the app
 ENTRYPOINT ["java", "-jar", "app.jar"]
