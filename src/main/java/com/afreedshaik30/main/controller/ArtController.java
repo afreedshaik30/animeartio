@@ -10,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/anime")
-@CrossOrigin(origins = "*")
 public class ArtController {
     private final ArtService artService;
 
